@@ -2,6 +2,13 @@
 
 {% block content %}
 
+<style>
+    .room-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+
 <div class="room-container">
 
     <div>
@@ -35,6 +42,17 @@
             </form>
         </div>
         {% endif %}
+    </div>
+
+    <div>
+        <h3>Participants</h3>
+        <hr>
+
+        {% for user in participants %}
+        <div>
+            <p>@{{user.username}}</p>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock content %}
