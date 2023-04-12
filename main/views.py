@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 
 
@@ -81,8 +81,18 @@ def home(request):
 
 def room(request, primary_key):
     room = Room.objects.get(id=primary_key)
+    room_messages = room.message_set.all().order_by('-created')
 
-    context = {'room': room}
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get('body')
+        )
+
+        return redirect('room', primary_key=room.id)
+
+    context = {'room': room, 'room_messages': room_messages}
 
     return render(request, 'main/room.html', context)
 
@@ -137,3 +147,18 @@ def delete_room(request, primary_key):
         return redirect('home')
 
     return render(request, 'main/delete.html', {'obj': room})
+
+
+@login_required(login_url='/login')
+def delete_message(request, primary_key):
+    message = Message.objects.get(id=primary_key)
+
+    if request.user != message.user:
+        return HttpResponse("You are not authorized to do that!")
+
+    if request.method == 'POST':
+        message.delete()
+
+        return redirect('room', primary_key=message.room.id)
+
+    return render(request, 'main/delete.html', {'obj': message})

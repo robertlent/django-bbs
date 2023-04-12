@@ -12,4 +12,6 @@ urlpatterns = [
          views.update_room, name='update-room'),
     path('delete-room/<str:primary_key>/',
          views.delete_room, name='delete-room'),
+    path('delete-message/<str:primary_key>/',
+         views.delete_message, name='delete-message'),
 ]
