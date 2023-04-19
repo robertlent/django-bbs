@@ -188,6 +188,9 @@ def delete_message(request, primary_key):
     if request.method == 'POST':
         message.delete()
 
+        if not Message.objects.filter(user_id=message.user.id, room_id=message.room.id):
+            message.room.participants.remove(message.user.id)
+
         return redirect('room', primary_key=message.room.id)
 
     return render(request, 'main/delete.html', {'obj': message})
