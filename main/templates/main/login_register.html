@@ -19,9 +19,9 @@
                     {% csrf_token %}
 
                     <div class="form__group form__group">
-                        <label for="room_name">Username</label>
+                        <label for="room_name">Email</label>
 
-                        <input id="username" name="username" type="text" placeholder="e.g. robert_lent" />
+                        <input id="username" name="email" type="text" />
                     </div>
 
                     <div class="form__group">
@@ -75,36 +75,18 @@
                     {% csrf_token %}
 
                     <div class="form__group form__group">
-                        <label for="fullname">Full Name</label>
 
-                        <input id="fullname" name="fullname" type="text" placeholder="e.g. Robert Lent" />
+                        {% for field in form %}
+
+                        <div class="form__group">
+                            <label for="profile_pic">{{field.label}}</label>
+                            {{field}}
+                        </div>
+
+                        {% endfor %}
                     </div>
 
-                    <div class="form__group form__group">
-                        <label for="room_name">Username</label>
-
-                        <input id="username" name="username" type="text" placeholder="e.g. robert_lent" />
-                    </div>
-
-                    <div class="form__group">
-                        <label for="password">Password</label>
-                        <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                        />
-                    </div>
-
-                    <div class="form__group">
-                        <label for="confirm_password">Confirm Password</label>
-                        <input
-                        id="confirm_password"
-                        name="confirm_password"
-                        type="password"
-                        placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                        />
-                    </div>
+                
         
                     <button class="btn btn--main" type="submit">
                         <svg
